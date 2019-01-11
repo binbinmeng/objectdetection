@@ -45,8 +45,8 @@ class MobileNetV1(nn.Module):
         out = self.relu(self.bn1(self.conv1(x)))
         out = self.layers(out)
         out = self.avg_pool(out)
-        out = out.view(out.size(0), -1)
-        out = self.linear(out)
+        #out = out.view(out.size(0), -1)
+        #out = self.linear(out)
         return out
 
     def name(self):
@@ -135,9 +135,9 @@ class MobileNetV2(nn.Module):
         out = self.layer6(out)
         out = self.layer7(out)
         out = self.relu(self.drop2(self.bn2(self.conv2(out))))
-        out = F.avg_pool2d(out, 4)
-        out = out.view(out.size(0), -1)
-        return self.linear(out)
+        #out = F.avg_pool2d(out, 4)
+        #out = out.view(out.size(0), -1)
+        return out#self.linear(out)
 
     def name(self):
         return 'MobileNetV2'
