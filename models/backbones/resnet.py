@@ -1,5 +1,5 @@
 import torch.nn as nn
-from .weight_init import constant_init, kaiming_ini
+from .weights_init import constant_init, kaiming_init
 import torch.utils.model_zoo as model_zoo
 
 def conv3x3(in_planes, out_planes, stride=1, dilation=1):
@@ -127,12 +127,11 @@ def make_res_layer(block,
             stride,
             dilation,
             downsample,
-            style=style,
-            with_cp=with_cp))
+            style=style))
     inplanes = planes * block.expansion
     for i in range(1, blocks):
         layers.append(
-            block(inplanes, planes, 1, dilation, style=style, with_cp=with_cp))
+            block(inplanes, planes, 1, dilation, style=style))
 
     return nn.Sequential(*layers)
 
