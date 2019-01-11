@@ -64,7 +64,7 @@ class Bottleneck(nn.Module):
         self.conv1 = conv1x1(inplanes,planes, stride=self.conv1_stride)
         self.bn1 = nn.BatchNorm2d(planes)
 
-        self.conv2 = conv3x3(inplanes, planes, stride=self.conv2_stride)
+        self.conv2 = conv3x3(planes, planes, stride=self.conv2_stride)
         self.bn2 = nn.BatchNorm2d(planes)
 
         self.conv3 = conv1x1(planes, planes * self.expansion)
@@ -219,6 +219,7 @@ class ResNet(nn.Module):
             stride = strides[i]
             dilation = dilations[i]
             planes = 64 * 2**i
+            print(planes)
             res_layer = make_res_layer(
                 self.block,
                 self.inplanes,
