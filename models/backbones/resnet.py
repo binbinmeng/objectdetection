@@ -1,7 +1,6 @@
 import torch.nn as nn
 from .weight_init import constant_init, kaiming_ini
 import torch.utils.model_zoo as model_zoo
-import torchsummary as summary
 
 def conv3x3(in_planes, out_planes, stride=1, dilation=1):
     "3x3 convolution with padding"
@@ -267,6 +266,3 @@ class ResNet(nn.Module):
             return tuple(outs)
 
 
-model = ResNet(18)
-model =model.cuda()
-summary(model, (3, 224, 224))
