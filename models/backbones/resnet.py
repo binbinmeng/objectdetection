@@ -266,8 +266,7 @@ class ResNet(nn.Module):
         else:
             return tuple(outs)
 
-if __name__ == '__main__':
-    #do test
-    model = ResNet(18)
-    model =model.cuda()
-    summary(model, (3, 224, 224))
+
+model = ResNet(18)
+model =model.cuda()
+summary(model, (3, 224, 224))
