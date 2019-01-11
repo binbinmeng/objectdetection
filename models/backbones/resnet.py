@@ -64,7 +64,7 @@ class Bottleneck(nn.Module):
         self.conv1 = conv1x1(inplanes,planes, stride=self.conv1_stride)
         self.bn1 = nn.BatchNorm2d(planes)
 
-        self.conv2 = conv3x3(inplanes, planes, stride=self.conv2_stride)
+        self.conv2 = conv3x3(planes, planes, stride=self.conv2_stride)
         self.bn2 = nn.BatchNorm2d(planes)
 
         self.conv3 = conv1x1(planes, planes * self.expansion)
@@ -219,6 +219,7 @@ class ResNet(nn.Module):
             stride = strides[i]
             dilation = dilations[i]
             planes = 64 * 2**i
+            print(planes)
             res_layer = make_res_layer(
                 self.block,
                 self.inplanes,
@@ -228,11 +229,12 @@ class ResNet(nn.Module):
                 dilation=dilation,
                 style=self.style)
             self.inplanes = planes * self.block.expansion
-            layer_name = 'layer{}'.format(i + 1) #bloack_names: layer0,layer1,layer2,layer3
+            layer_name = 'layer{}'.format(i + 1) #bloack_names: layer1,layer2,layer3,layer4
             self.add_module(layer_name, res_layer)
             self.res_layers.append(layer_name)
 
         self.feat_dim = self.block.expansion * 64 * 2**(len(self.stage_blocks) - 1)#resnet output dimension
+        print(self.feat_dim)
 
     def init_weights(self, pretrained=None):
         if isinstance(pretrained, str):
