@@ -2,6 +2,7 @@
 import torch.nn as nn
 import math
 
+
 class InvertedResidual(nn.Module):
     def __init__(self, inp, oup, stride, expand_ratio):
         super(InvertedResidual, self).__init__()
@@ -42,21 +43,22 @@ class InvertedResidual(nn.Module):
         else:
             return self.conv(x)
 
-
-class MobileNetV2(nn.Module):
-    def conv_bn(inp, oup, stride):
+def conv_bn(inp, oup, stride):
         return nn.Sequential(
                 nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
                 nn.BatchNorm2d(oup),
                 nn.ReLU6(inplace=True)
             )
 
-    def conv_1x1_bn(inp, oup):
+def conv_1x1_bn(inp, oup):
         return nn.Sequential(
                 nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
                 nn.BatchNorm2d(oup),
                 nn.ReLU6(inplace=True)
             )
+
+class MobileNetV2(nn.Module):
+
     def __init__(self, n_class=1000, input_size=224, width_mult=1.):
         super(MobileNetV2, self).__init__()
         block = InvertedResidual
