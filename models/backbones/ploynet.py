@@ -458,11 +458,12 @@ class PolyNet(nn.Module):
         return x
 
 
-def polynet(num_classes=1000, pretrained='imagenet'):
+def polynet(num_classes=1000, **kwargs):
     """PolyNet architecture from the paper
     'PolyNet: A Pursuit of Structural Diversity in Very Deep Networks'
     https://arxiv.org/abs/1611.05725
     """
+    '''
     if pretrained:
         settings = pretrained_settings['polynet'][pretrained]
         assert num_classes == settings['num_classes'], \
@@ -476,7 +477,8 @@ def polynet(num_classes=1000, pretrained='imagenet'):
         model.mean = settings['mean']
         model.std = settings['std']
     else:
-        model = PolyNet(num_classes=num_classes)
+    '''
+    model = PolyNet(num_classes=num_classes)
     return model
 
 if __name__ =='__main__':

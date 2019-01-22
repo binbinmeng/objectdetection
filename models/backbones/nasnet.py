@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 
 __all__ = ['NASNet','NASNetAMobile','NASNetALarge']
+
 class SeparableConv2d(nn.Sequential):
 
     def __init__(self, in_channels, out_channels, dw_kernel, dw_stride, dw_padding, bias=False):
@@ -385,12 +386,12 @@ class NASNet(nn.Module):
         return [output]
 
 
-def NASNetAMobile(num_classes=1000):
+def NASNetAMobile(num_classes=1000,**kwargs):
     #input:224x224
     return NASNet(32, 4, 44, 2, skip_reduction=False, use_aux=True, num_classes=num_classes)
 
 
-def NASNetALarge(num_classes=1000):
+def NASNetALarge(num_classes=1000,**kwargs):
     #input:331x331
     return NASNet(96, 6, 168, 2, skip_reduction=True, use_aux=True, num_classes=num_classes)
 
