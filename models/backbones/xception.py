@@ -213,6 +213,18 @@ class Xception(nn.Module):
         x = self.logits(x)
         return x
 
+def xception(pretrained=False, **kwargs):
+    """xception model (configuration "A")
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    model = xception( **kwargs)
+    #if pretrained:
+    #    model.load_state_dict(model_zoo.load_url(model_urls['vgg11']))
+    return model
+
+
 def speed(model, name, inputX, inputY):
     import time
     t0 = time.time()
