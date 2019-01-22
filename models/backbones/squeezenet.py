@@ -4,7 +4,7 @@ import torch.nn.init as init
 import torch.utils.model_zoo as model_zoo
 
 
-__all__ = ['SqueezeNet', 'squeezenet1_1']
+__all__ = ['SqueezeNet', 'squeezenet1_0','squeezenet1_1']
 
 
 model_urls = {
