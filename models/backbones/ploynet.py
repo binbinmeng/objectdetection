@@ -432,7 +432,7 @@ class PolyNet(nn.Module):
             InceptionResNetCPoly3(scale=0.707692),
             InceptionResNetC2Way(scale=0.7),
         )
-        self.avg_pool = nn.AvgPool2d(9, stride=1)
+        self.avg_pool = nn.AvgPool2d(5, stride=1)
         self.dropout = nn.Dropout(0.2)
         self.last_linear = nn.Linear(2048, num_classes)
 
@@ -480,6 +480,6 @@ def polynet(num_classes=1000, pretrained='imagenet'):
     return model
 
 if __name__ =='__main__':
-   model = PolyNet()
+   model = PolyNet(1000)
    from torchsummary import summary
    summary(model,(3,224,224),1,"cpu")

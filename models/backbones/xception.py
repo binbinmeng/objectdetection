@@ -29,6 +29,8 @@ import torch.nn.functional as F
 import torch.utils.model_zoo as model_zoo
 from torch.nn import init
 
+from torch.autograd import Variable
+
 __all__ = ['xception']
 
 pretrained_settings = {
@@ -211,8 +213,21 @@ class Xception(nn.Module):
         x = self.logits(x)
         return x
 
+def speed(model, name, inputX, inputY):
+    import time
+    t0 = time.time()
+    input = torch.rand(1,3,inputX, inputY).cuda()
+    input = Variable(input, volatile = True)
+    t1 = time.time()
+
+    out = model(input)
+    t2 = time.time()
+
+    print("=> output size = {}".format(out.size()))
+    print('=> {} cost: {}'.format(name, t2 - t1))
 
 if __name__=='__main__':
     model = Xception().cuda()
     from torchsummary import summary
     summary(model,(3,224,224))
+    speed(model.cuda(), 'Xception', 224, 224)

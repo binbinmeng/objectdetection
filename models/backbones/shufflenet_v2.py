@@ -66,7 +66,7 @@ class Bottleneck(nn.Module):
         N, C, H, W = x.size()
 
         g = self.groups
-        x = x.view(N, g, C / g, H, W).permute(0, 2, 1, 3, 4).contiguous().view(N, C, H, W)
+        x = x.view(N, g, int(C / g), H, W).permute(0, 2, 1, 3, 4).contiguous().view(N, C, H, W)
         return x
 
 
