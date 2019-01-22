@@ -44,6 +44,19 @@ class InvertedResidual(nn.Module):
 
 
 class MobileNetV2(nn.Module):
+    def conv_bn(inp, oup, stride):
+        return nn.Sequential(
+                nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
+                nn.BatchNorm2d(oup),
+                nn.ReLU6(inplace=True)
+            )
+
+    def conv_1x1_bn(inp, oup):
+        return nn.Sequential(
+                nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
+                nn.BatchNorm2d(oup),
+                nn.ReLU6(inplace=True)
+            )
     def __init__(self, n_class=1000, input_size=224, width_mult=1.):
         super(MobileNetV2, self).__init__()
         block = InvertedResidual
@@ -60,25 +73,11 @@ class MobileNetV2(nn.Module):
             [6, 320, 1, 1],
         ]
 
-        def conv_bn(inp, oup, stride):
-            return nn.Sequential(
-                nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
-                nn.BatchNorm2d(oup),
-                nn.ReLU6(inplace=True)
-            )
-
-        def conv_1x1_bn(inp, oup):
-            return nn.Sequential(
-                nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
-                nn.BatchNorm2d(oup),
-                nn.ReLU6(inplace=True)
-            )
-
         # building first layer
         assert input_size % 32 == 0
         input_channel = int(input_channel * width_mult)
         self.last_channel = int(last_channel * width_mult) if width_mult > 1.0 else last_channel
-        self.features = [self.conv_bn(3, input_channel, 2)]
+        self.features = [conv_bn(3, input_channel, 2)]
         # building inverted residual blocks
         for t, c, n, s in interverted_residual_setting:
             output_channel = int(c * width_mult)
@@ -89,7 +88,7 @@ class MobileNetV2(nn.Module):
                     self.features.append(block(input_channel, output_channel, 1, expand_ratio=t))
                 input_channel = output_channel
         # building last several layers
-        self.features.append(self.conv_1x1_bn(input_channel, self.last_channel))
+        self.features.append(conv_1x1_bn(input_channel, self.last_channel))
         # make it nn.Sequential
         self.features = nn.Sequential(*self.features)
 
