@@ -15,21 +15,23 @@ import torch.utils.data
 import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-#from  models.backbones  import *
-import models.backbones as models
-
-model_names = sorted(name for name in models.__dict__
-                     if name.islower() and not name.startswith("__")
-                     and callable(models.__dict__[name]))
+from  models.backbones  import *
+#import models.backbones as models
+#import models
+#from models import mobilenet_v1
+#print(models.__dict__)
+#model_names = sorted(name for name in models.__dict__
+#                     if name.islower() and not name.startswith("__")
+#                     and callable(models.__dict__[name]))
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
-parser.add_argument('--arch', '-a', metavar='ARCH', default='mobilenet_v1',
-                    choices=model_names,
+parser.add_argument('--arch', '-a', metavar='ARCH', default='MobiNetV1',
+                    #choices=model_names,
                     help='model architecture: ' +
-                         ' | '.join(model_names) +
-                         ' (default: mobilenet_v1)')
+                         #' | '.join(model_names) +
+                         ' (default: MobileNetV1')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('--epochs', default=90, type=int, metavar='N',
@@ -87,7 +89,7 @@ def main():
         model = models.__dict__[args.arch](pretrained=True)
     else:
         print("=> creating model '{}'".format(args.arch))
-        model = models.__dict__[args.arch]()
+        model = MobileNetV1()#models.__dict__[args.arch]()
 
 
         if not args.distributed:
@@ -228,7 +230,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         # measure accuracy and record loss
         prec1, prec5 = accuracy(output.data, target, topk=(1, 5))
-        losses.update(loss.data[0], input.size(0))
+        losses.update(loss.item(), input.size(0))
         top1.update(prec1[0], input.size(0))
         top5.update(prec5[0], input.size(0))
 
@@ -286,7 +288,7 @@ def validate(val_loader, model, criterion):
 
         # measure accuracy and record loss
         prec1, prec5 = accuracy(output.data, target, topk=(1, 5))
-        losses.update(loss.data[0], input.size(0))
+        losses.update(loss.item(), input.size(0))
         top1.update(prec1[0], input.size(0))
         top5.update(prec5[0], input.size(0))
 
