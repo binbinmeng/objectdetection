@@ -73,12 +73,12 @@ class MobileNetV2(nn.Module):
                 nn.BatchNorm2d(oup),
                 nn.ReLU6(inplace=True)
             )
-        
+
         # building first layer
         assert input_size % 32 == 0
         input_channel = int(input_channel * width_mult)
         self.last_channel = int(last_channel * width_mult) if width_mult > 1.0 else last_channel
-        self.features = [conv_bn(3, input_channel, 2)]
+        self.features = [self.conv_bn(3, input_channel, 2)]
         # building inverted residual blocks
         for t, c, n, s in interverted_residual_setting:
             output_channel = int(c * width_mult)
@@ -89,7 +89,7 @@ class MobileNetV2(nn.Module):
                     self.features.append(block(input_channel, output_channel, 1, expand_ratio=t))
                 input_channel = output_channel
         # building last several layers
-        self.features.append(conv_1x1_bn(input_channel, self.last_channel))
+        self.features.append(self.conv_1x1_bn(input_channel, self.last_channel))
         # make it nn.Sequential
         self.features = nn.Sequential(*self.features)
 
