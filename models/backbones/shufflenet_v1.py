@@ -6,12 +6,6 @@ import torch.nn as nn
 import math
 import numpy as np
 
-def conv3x3(in_planes, out_planes, stride=1):
-    """3x3 convolution with padding"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
-                     padding=1, bias=False)
-
-
 class ShufflenetUnit(nn.Module):
     expansion = 4
     def __init__(self, inplanes, planes, stride=1, downsample=None, flag=False):
@@ -19,6 +13,12 @@ class ShufflenetUnit(nn.Module):
         self.downsample = downsample
         group_num = 3
         self.flag = flag
+
+        def conv3x3(in_planes, out_planes, stride=1):
+            """3x3 convolution with padding"""
+            return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
+                             padding=1, bias=False)
+
         if self.flag:
             self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, groups=1, bias=False)
         else:
