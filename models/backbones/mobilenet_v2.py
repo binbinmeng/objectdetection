@@ -11,20 +11,6 @@ class InvertedResidual(nn.Module):
         hidden_dim = round(inp * expand_ratio)
         self.use_res_connect = self.stride == 1 and inp == oup
 
-        def conv_bn(inp, oup, stride):
-            return nn.Sequential(
-                nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
-                nn.BatchNorm2d(oup),
-                nn.ReLU6(inplace=True)
-            )
-
-        def conv_1x1_bn(inp, oup):
-            return nn.Sequential(
-                nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
-                nn.BatchNorm2d(oup),
-                nn.ReLU6(inplace=True)
-            )
-
         if expand_ratio == 1:
             self.conv = nn.Sequential(
                 # dw
@@ -74,6 +60,20 @@ class MobileNetV2(nn.Module):
             [6, 320, 1, 1],
         ]
 
+        def conv_bn(inp, oup, stride):
+            return nn.Sequential(
+                nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
+                nn.BatchNorm2d(oup),
+                nn.ReLU6(inplace=True)
+            )
+
+        def conv_1x1_bn(inp, oup):
+            return nn.Sequential(
+                nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
+                nn.BatchNorm2d(oup),
+                nn.ReLU6(inplace=True)
+            )
+        
         # building first layer
         assert input_size % 32 == 0
         input_channel = int(input_channel * width_mult)
