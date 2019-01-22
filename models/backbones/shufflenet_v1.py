@@ -122,12 +122,12 @@ class ShuffleNet(nn.Module):
         return x
 
 
-def shufflenet():
+def ShuffleNetV1():
     model = ShuffleNet(ShufflenetUnit, [3, 7, 3])
     return model 
 
 if __name__=='__main__':
-    model = shufflenet().cuda()
+    model = ShuffleNetV1().cuda()
     from torchsummary import summary
     summary(model,(3,224,224))
     #speed(model.cuda(), 'Xception', 224, 224)
