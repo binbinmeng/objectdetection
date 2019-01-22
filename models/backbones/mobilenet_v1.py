@@ -47,6 +47,15 @@ class MobileNetV1(nn.Module):
                 x = x.view(-1, 1024)
                 x = self.fc(x)
                 return x
+def mobilenet_v1( **kwargs):
+    r"""mobilenet_v1 model architecture from the `"mobilenet_v1
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    model = MobileNetV1(**kwargs)
+    #if pretrained:
+    #    model.load_state_dict(model_zoo.load_url(model_urls['mobilenet_v1']))
+    return model
 
 if __name__ == '__main__':
     model = MobileNetV1()

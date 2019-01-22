@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
+__all__ = ['SENet','senet18']
+
 class BasicBlock(nn.Module):
     def __init__(self, in_channels, channels, stride=1):
         super(BasicBlock, self).__init__()
@@ -117,7 +119,7 @@ class SENet(nn.Module):
     def name(self):
         return 'SENet'
 
-def SENet18():
+def senet18(**kwargs):
     return SENet(PreActBlock, [2, 2, 2, 2])
 
 def test():

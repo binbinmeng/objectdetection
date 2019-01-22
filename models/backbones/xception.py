@@ -225,21 +225,7 @@ def xception(pretrained=False, **kwargs):
     return model
 
 
-def speed(model, name, inputX, inputY):
-    import time
-    t0 = time.time()
-    input = torch.rand(1,3,inputX, inputY).cuda()
-    input = Variable(input, volatile = True)
-    t1 = time.time()
-
-    out = model(input)
-    t2 = time.time()
-
-    print("=> output size = {}".format(out.size()))
-    print('=> {} cost: {}'.format(name, t2 - t1))
-
 if __name__=='__main__':
     model = Xception().cuda()
     from torchsummary import summary
     summary(model,(3,224,224))
-    speed(model.cuda(), 'Xception', 224, 224)

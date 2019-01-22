@@ -121,11 +121,16 @@ class ShuffleNetV2(nn.Module):
         return nn.Sequential(*layers)
 
 
-def test():
-    net = ShuffleNetV2()
-    x = Variable(torch.randn(1, 3, 224, 224))
-    y = net(x)
-    print(net)
+def shufflenet_v2( **kwargs):
+    r"""mobilenet_v1 model architecture from the `"shufflenet_v2
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    model = ShuffleNetV2(**kwargs)
+    #if pretrained:
+    #    model.load_state_dict(model_zoo.load_url(model_urls['shufflenet_v2']))
+    return model
+
 
 
 if __name__ =='__main__':

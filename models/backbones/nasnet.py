@@ -6,7 +6,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 
-
+__all__ = ['NASNet','NASNetAMobile','NASNetALarge']
 class SeparableConv2d(nn.Sequential):
 
     def __init__(self, in_channels, out_channels, dw_kernel, dw_stride, dw_padding, bias=False):

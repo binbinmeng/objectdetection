@@ -122,9 +122,15 @@ class ShuffleNet(nn.Module):
         return x
 
 
-def ShuffleNetV1():
-    model = ShuffleNet(ShufflenetUnit, [3, 7, 3])
-    return model 
+def shufflenet_v1( **kwargs):
+    r"""mobilenet_v1 model architecture from the `"shufflenet_v1
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    model = ShuffleNetV1(**kwargs)
+    #if pretrained:
+    #    model.load_state_dict(model_zoo.load_url(model_urls['shufflenet_v1']))
+    return model
 
 if __name__=='__main__':
     model = ShuffleNetV1().cuda()

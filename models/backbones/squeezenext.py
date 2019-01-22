@@ -4,6 +4,8 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.autograd import Variable
 
+__all__ = ['SqueezeNext','SqNxt_23_1x', 'SqNxt_23_1x_v5','SqNxt_23_2x','SqNxt_23_2x_v5']
+
 class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride):
         super(BasicBlock, self).__init__()
@@ -90,34 +92,20 @@ class SqueezeNext(nn.Module):
         #print("fc:",output.shape)
         return output
 
-def speed(model, name, inputX, inputY):
-    import time
-    t0 = time.time()
-    input = torch.rand(1,3,inputX, inputY).cuda()
-    input = Variable(input, volatile = True)
-    t1 = time.time()
-
-    out = model(input)
-    t2 = time.time()
-    
-    print("=> output size = {}".format(out.size()))
-    print('=> {} cost: {}'.format(name, t2 - t1))
-
-def SqNxt_23_1x(num_classes):
+def SqNxt_23_1x(num_classes,**kwargs):
     return SqueezeNext(1.0, [6, 6, 8, 1], num_classes)
 
-def SqNxt_23_1x_v5(num_classes):
+def SqNxt_23_1x_v5(num_classes,**kwargs):
     return SqueezeNext(1.0, [2, 4, 14, 1], num_classes)
 
-def SqNxt_23_2x(num_classes):
+def SqNxt_23_2x(num_classes,**kwargs):
     return SqueezeNext(2.0, [6, 6, 8, 1], num_classes)
 
-def SqNxt_23_2x_v5(num_classes):
+def SqNxt_23_2x_v5(num_classes,**kwargs):
     return SqueezeNext(2.0, [2, 4, 14, 1], num_classes)
 
 if __name__ == '__main__':
     model =  SqNxt_23_1x_v5(1000)
     from torchsummary import summary
     summary(model.cuda(), (3, 224, 224))
-    speed(model.cuda(), 'SqNxt_23_1x_v5', 224, 224) 
     
