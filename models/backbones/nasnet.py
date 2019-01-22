@@ -6,7 +6,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 
-__all__ = ['NASNet','NASNetAMobile','NASNetALarge']
+__all__ = ['nasnet_mobile','nasnet_large']
 
 class SeparableConv2d(nn.Sequential):
 
@@ -386,16 +386,16 @@ class NASNet(nn.Module):
         return [output]
 
 
-def NASNetAMobile(num_classes=1000,**kwargs):
+def nasnet_mobile(num_classes=1000,**kwargs):
     #input:224x224
     return NASNet(32, 4, 44, 2, skip_reduction=False, use_aux=True, num_classes=num_classes)
 
 
-def NASNetALarge(num_classes=1000,**kwargs):
+def nasnet_large(num_classes=1000,**kwargs):
     #input:331x331
     return NASNet(96, 6, 168, 2, skip_reduction=True, use_aux=True, num_classes=num_classes)
 
 if __name__== '__main__':
-    net = NASNetALarge(1001).cuda()
+    net = nasnet_large(1001).cuda()
     from torchsummary import summary
     summary(net,(3,224,224))
