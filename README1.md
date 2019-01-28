@@ -2,7 +2,7 @@
 
 一. backbone
 Have intergrated following base models:
-'''
+```
   'air101_1x64d', 
   'air50_1x64d', 
   'airx101_32x4d_r16', 
@@ -32,7 +32,9 @@ Have intergrated following base models:
   'vgg19', 
   'vgg19_bn', 
   'xception'
-  '''
+ ```
  Following models are TODO:
+ ```
   'inception_v4'
   'inception-resnet'
+```
